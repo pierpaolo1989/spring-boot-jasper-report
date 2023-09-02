@@ -1,6 +1,6 @@
 package com.soa.reports.controller;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.soa.reports.model.Player;
 
+import lombok.extern.slf4j.Slf4j;
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -22,6 +23,7 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
+@Slf4j
 @RestController
 public class PlayerController {
 
@@ -31,13 +33,10 @@ public class PlayerController {
 		try {
 			Player p1 = new Player(1, "Victor Oshimen", "Forward", 150d);
 			Player p2 = new Player(2, "Diego Demme", "Midfielder", 10d);
-			Player p3 = new Player(2, "Rafael Leao", "Midfielder", 300d);
+			Player p3 = new Player(3, "Rafael Leao", "Forward", 300d);
 
 
-			List<Player> players = new ArrayList<>();
-			players.add(p1);
-			players.add(p2);
-			players.add(p3);
+			List<Player> players = Arrays.asList(p1,p2,p3);
 
 			//dynamic parameters required for report
 			Map<String, Object> params = new HashMap<>();
@@ -57,12 +56,13 @@ public class PlayerController {
 			HttpHeaders headers = new HttpHeaders();
 			//set the PDF format
 			headers.setContentType(MediaType.APPLICATION_PDF);
-			headers.setContentDispositionFormData("filename", "employees-details.pdf");
+			headers.setContentDispositionFormData("filename", "rosa-fantacalcio.pdf");
 			//create the report in PDF format
 			return new ResponseEntity
 					(JasperExportManager.exportReportToPdf(empReport), headers, HttpStatus.OK);
 
 		} catch(Exception e) {
+			log.error("Impossible to generate report. Error: {}", e.getMessage(),e);
 			return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
