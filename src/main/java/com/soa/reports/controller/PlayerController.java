@@ -39,9 +39,8 @@ public class PlayerController {
 			var team = Team.builder().name("SempreSoloForzaNapoli").playersData(players).build();
 
 			JRBeanCollectionDataSource beanColDataSource = new JRBeanCollectionDataSource(List.of(team));
-			//new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{playersData})
 
-			JasperPrint empReport =
+			JasperPrint report =
 					JasperFillManager.fillReport
 				   (
 							JasperCompileManager.compileReport(
@@ -57,7 +56,7 @@ public class PlayerController {
 			headers.setContentDispositionFormData("filename", "rosa-fantacalcio.pdf");
 			//create the report in PDF format
 			return new ResponseEntity
-					(JasperExportManager.exportReportToPdf(empReport), headers, HttpStatus.OK);
+					(JasperExportManager.exportReportToPdf(report), headers, HttpStatus.OK);
 
 		} catch(Exception e) {
 			log.error("Impossible to generate report. Error: {}", e.getMessage(),e);
