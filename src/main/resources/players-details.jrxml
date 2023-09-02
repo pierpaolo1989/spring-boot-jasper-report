@@ -29,16 +29,16 @@
 		</box>
 	</style>
 	<subDataset name="Empty Dataset1" uuid="ca607804-7b41-4b9e-9054-0e66d97435f3">
-		<parameter name="name" class="java.lang.String"/>
-		<parameter name="role" class="java.lang.String"/>
-		<parameter name="id" class="java.lang.Integer"/>
-		<parameter name="price" class="java.lang.Double"/>
+		<field name="name" class="java.lang.String"/>
+		<field name="id" class="java.lang.Integer"/>
+		<field name="role" class="java.lang.String"/>
+		<field name="price" class="java.lang.Double"/>
 	</subDataset>
-	<parameter name="teamName" class="java.lang.String"/>
-	<parameter name="playersData" class="java.util.List"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
+	<field name="playersData" class="java.util.Collection"/>
+	<field name="name" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -63,8 +63,8 @@
 					<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
 				</reportElement>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="Empty Dataset1" uuid="34c6b0d9-cf72-4aff-81d0-3f364fe62767">
-						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{playersData})]]></dataSourceExpression>
+					<datasetRun subDataset="Empty Dataset1" uuid="58a32600-3e68-4cc1-ad75-29bc2c7203d9">
+						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{playersData})]]></dataSourceExpression>
 					</datasetRun>
 					<jr:column width="137" uuid="98a92273-ce4a-4936-a74b-8609950d818c">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Colonna1"/>
@@ -81,7 +81,7 @@
 							<textField>
 								<reportElement x="0" y="0" width="137" height="30" uuid="38f1cc04-8d91-4b32-aa87-3ff7480d2753"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
-								<textFieldExpression><![CDATA[$P{id}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -100,7 +100,7 @@
 							<textField>
 								<reportElement x="0" y="0" width="138" height="30" uuid="7989f10b-30bf-4db1-975a-838ab2f56143"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
-								<textFieldExpression><![CDATA[$P{name}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -119,7 +119,7 @@
 							<textField>
 								<reportElement x="0" y="0" width="138" height="30" uuid="3e0b36ce-ff6b-47af-b330-af3ae81effd9"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
-								<textFieldExpression><![CDATA[$P{role}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{role}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -138,7 +138,7 @@
 							<textField>
 								<reportElement x="0" y="0" width="137" height="30" uuid="c8de7179-0be9-48cb-b55b-4e0b0390decf"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
-								<textFieldExpression><![CDATA[$P{name}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{price}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>

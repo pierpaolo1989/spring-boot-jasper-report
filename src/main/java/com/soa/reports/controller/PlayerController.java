@@ -3,7 +3,6 @@ package com.soa.reports.controller;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -14,9 +13,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.soa.reports.model.Player;
+import com.soa.reports.model.Team;
 
 import lombok.extern.slf4j.Slf4j;
-import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -31,17 +30,16 @@ public class PlayerController {
 	public ResponseEntity<Void> generateReport() {
 
 		try {
+			
 			Player p1 = new Player(1, "Victor Oshimen", "Forward", 150d);
 			Player p2 = new Player(2, "Diego Demme", "Midfielder", 10d);
 			Player p3 = new Player(3, "Rafael Leao", "Forward", 300d);
-
-
 			List<Player> players = Arrays.asList(p1,p2,p3);
+			
+			var team = Team.builder().name("SempreSoloForzaNapoli").playersData(players).build();
 
-			//dynamic parameters required for report
-			Map<String, Object> params = new HashMap<>();
-			params.put("teamName", "SempreSoloForzaNapoli");
-			params.put("playersData", new JRBeanCollectionDataSource(players));
+			JRBeanCollectionDataSource beanColDataSource = new JRBeanCollectionDataSource(List.of(team));
+			//new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{playersData})
 
 			JasperPrint empReport =
 					JasperFillManager.fillReport
@@ -49,8 +47,8 @@ public class PlayerController {
 							JasperCompileManager.compileReport(
 							ResourceUtils.getFile("classpath:players-details.jrxml")
 									.getAbsolutePath()) // path of the jasper report
-							, params // dynamic parameters
-							, new JREmptyDataSource()
+							, new HashMap<>() // dynamic parameters
+							, beanColDataSource
 					);
 
 			HttpHeaders headers = new HttpHeaders();
